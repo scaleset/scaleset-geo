@@ -10,9 +10,9 @@
 	<artifactId>scaleset-geo</artifactId>
 	<version>0.2.0</version>
 	<packaging>jar</packaging>
-	<name>simple-geo</name>
+	<name>scaleset-geo</name>
 	<description>Simple framework for dealing with GeoJson and similar data formats</description>
-	<url>https://github.com/scaleset/simple-geo</url>
+	<url>https://github.com/scaleset/scaleset-geo</url>
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
@@ -23,7 +23,7 @@
 	<scm>
 		<connection>scm:git:git@github.com:scaleset/scaleset-geo.git</connection>
 		<developerConnection>scm:git:git@github.com:scaleset/scaleset-geo.git</developerConnection>
-		<url>git@github.com:scaleset/simple-geo.git</url>
+		<url>git@github.com:scaleset/scaleset-geo.git</url>
 	</scm>
 	<developers>
 		<developer>
