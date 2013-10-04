@@ -9,7 +9,8 @@ public class KmlExtNs {
     public final static String h = "h";
 
     /**
-     * Can be used instead of the OGC KML standard <altitudeMode> element, and
+     * Can be used instead of the OGC KML standard
+     * <code>&lt;altitudeMode&gt;</code> element, and
      * accepts the following values in addition to the standard altitudeMode
      * values:
      * <ul>
