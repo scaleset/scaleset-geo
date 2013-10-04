@@ -1,4 +1,4 @@
-Scaleset Simple Geo
+Scaleset Geo
 ==============
 
-Simple Geo is a GeoJSON compatible framework for working with simple feature data.
+Scaleset Geo is a GeoJSON compatible framework for working with simple feature data.
