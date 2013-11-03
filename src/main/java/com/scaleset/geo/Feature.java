@@ -1,31 +1,25 @@
 package com.scaleset.geo;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.scaleset.geo.geojson.GeometryDeserializer;
-import com.scaleset.geo.geojson.GeometrySerializer;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Feature {
 
     private final static GeometryFactory factory = new GeometryFactory();
-
-    @JsonDeserialize(using = GeometryDeserializer.class)
-    @JsonSerialize(using = GeometrySerializer.class)
     private Geometry geometry;
-
     private String id;
-
     private Map<String, Object> properties = new HashMap<String, Object>();
-
     private String type = "Feature";
+
+    public void geometry(Coordinate coordinate) {
+        this.geometry = factory.createPoint(coordinate);
+    }
 
     public Object get(String key) {
         return properties.get(key);
@@ -55,10 +49,6 @@ public class Feature {
 
     public void setGeometry(Geometry geometry) {
         this.geometry = geometry;
-    }
-
-    public void geometry(Coordinate coordinate) {
-        this.geometry = factory.createPoint(coordinate);
     }
 
     public void setId(String id) {

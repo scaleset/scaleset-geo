@@ -1,14 +1,15 @@
 package com.scaleset.geo.geojson;
 
+import com.scaleset.geo.Feature;
+import com.scaleset.geo.FeatureHandler;
+import com.scaleset.geo.geonames.GeoNamesParser;
+import com.vividsolutions.jts.geom.Envelope;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Map;
-
-import com.scaleset.geo.Feature;
-import com.scaleset.geo.FeatureHandler;
-import com.scaleset.geo.geonames.GeoNamesParser;
 
 public class GeonamesToGeoJson {
 
@@ -37,6 +38,9 @@ public class GeonamesToGeoJson {
 
         public void end() throws Exception {
             writer.end();
+        }
+
+        public void handle(Envelope bbox) {
         }
 
         public void handle(Feature feature) throws Exception {
