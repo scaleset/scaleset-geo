@@ -1,14 +1,14 @@
 package com.scaleset.geo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.index.SpatialIndex;
 import com.vividsolutions.jts.index.strtree.STRtree;
 
-@JsonIgnoreProperties({ "type", "bbox" })
+import java.util.ArrayList;
+import java.util.List;
+
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class FeatureCollection {
 
     private Envelope bbox;
@@ -31,18 +31,6 @@ public class FeatureCollection {
         return id;
     }
 
-    public String getType() {
-        return "FeatureCollection";
-    }
-
-    public void setFeatures(List<Feature> features) {
-        this.features = features;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public SpatialIndex rtee() {
         SpatialIndex result = new STRtree();
         for (Feature feature : features) {
@@ -51,5 +39,17 @@ public class FeatureCollection {
             }
         }
         return result;
+    }
+
+    public void setBbox(Envelope bbox) {
+        this.bbox = bbox;
+    }
+
+    public void setFeatures(List<Feature> features) {
+        this.features = features;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

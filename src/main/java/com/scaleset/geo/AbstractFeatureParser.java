@@ -1,19 +1,11 @@
 package com.scaleset.geo;
 
+import com.vividsolutions.jts.geom.Envelope;
+
 public abstract class AbstractFeatureParser implements FeatureParser {
 
     private FeatureHandler handler;
     private FeatureFilter filter;
-
-    public FeatureParser handler(FeatureHandler handler) {
-        this.handler = handler;
-        return this;
-    }
-
-    public FeatureParser filter(FeatureFilter filter) {
-        this.filter = filter;
-        return this;
-    }
 
     protected void begin() throws Exception {
         handler.begin();
@@ -21,6 +13,15 @@ public abstract class AbstractFeatureParser implements FeatureParser {
 
     protected void end() throws Exception {
         handler.end();
+    }
+
+    public FeatureParser filter(FeatureFilter filter) {
+        this.filter = filter;
+        return this;
+    }
+
+    protected void handle(Envelope bbox) {
+        handler.handle(bbox);
     }
 
     protected void handle(Feature feature) {
@@ -32,6 +33,11 @@ public abstract class AbstractFeatureParser implements FeatureParser {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+    }
+
+    public FeatureParser handler(FeatureHandler handler) {
+        this.handler = handler;
+        return this;
     }
 
 }
