@@ -1,4 +1,4 @@
-package com.scaleset.geo;
+package com.scaleset.geo.math;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.CoordinateSequence;

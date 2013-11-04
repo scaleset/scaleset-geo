@@ -1,9 +1,9 @@
-package com.scaleset.geo;
+package com.scaleset.geo.math;
 
 
 import com.vividsolutions.jts.geom.Coordinate;
 
-public class GreatCircle {
+public class GreatCircleMath {
 
     public final static double EARTH_RADIUS = 6372797.560856;
 
@@ -17,7 +17,7 @@ public class GreatCircle {
         return EARTH_RADIUS * c;
     }
 
-    public double distance(Coordinate start, Coordinate end) {
+    public static double distance(Coordinate start, Coordinate end) {
         return distance(start.x, start.y, end.x, end.y);
     }
 }
