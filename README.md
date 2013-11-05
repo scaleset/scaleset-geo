@@ -7,6 +7,16 @@ Scaleset Geo is a GeoJSON compatible framework for working with simple feature d
 Quick Start
 -----------
 
+### Dependency
+
+```java
+<dependency>
+    <groupId>com.scaleset</groupId>
+    <artifactId>scaleset-geo</artifactId>
+    <version>0.5.0</version>
+</dependency>
+```
+
 ### Feature API
 
 Scaleset Geo provides a minimal Feature API compatible with the GeoJSON data model.
@@ -15,16 +25,7 @@ Scaleset Geo provides a minimal Feature API compatible with the GeoJSON data mod
 * Feature Collection - A collection of Feature objects with an additional bounding box.
 
 
-### Dependency
-```java
-<dependency>
-    <groupId>com.scaleset</groupId>
-    <artifactId>scaleset-geo</artifactId>
-    <version>0.4.0</version>
-</dependency>
-```
-
-### GeoJSONParser
+### GeoJsonParser
 
 GeoJSONParser is a streaming GeoJSON parser. It uses the Jackson's streaming API to parse arbitrarily large GeoJSON documents.
 Simple instantiate the parser and provide it with a handler to receive callbacks as each feature is encountered. It also provides
@@ -41,11 +42,23 @@ The following example uses a FeatureCollectionHandler to build a FeatureCollecti
      System.out.println(fc.getFeatures().size());
 ```
 
-### GeoNamesParser
+### GeoJsonWriter
 
-GeoNamesParser is a streaming parser for the data files published by geonames.org.
+GeoCsvWriter is a streaming GeoJsonWriter. It uses Jackson's streaming API to write arbitrarily large GeoJSON documents.
 
-### GeoCSVParser
+```java
+    FeatureCollection fc = parseFeatures();
+    GeoJsonWriter writer = new GeoJsonWriter();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    writer.start(out);
+    for (Feature feature : fc.getFeatures()) {
+        writer.feature(feature);
+    }
+    writer.end();
+    String json = out.toString();
+```
+
+### GeoCsvParser
 
 GeoCsvParser is a streaming parser for CSV files with a WKT geometry column. Compressed GeoCSV files can be much
 smaller than their equivalent zipped shapefiles. Unlike a zipped shapefile which requires unzipping before processing,
@@ -59,3 +72,8 @@ GoCSV files be parsed directly. This makes them an ideal way to distribute geo d
     FeatureCollection fc = handler.getCollection();
     System.out.println(fc.getFeatures().size());
 ```
+
+### GeoNamesParser
+
+GeoNamesParser is a streaming parser for the data files published by geonames.org.
+
