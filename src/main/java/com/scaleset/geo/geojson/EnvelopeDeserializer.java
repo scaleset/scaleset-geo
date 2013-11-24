@@ -15,7 +15,6 @@ public class EnvelopeDeserializer extends JsonDeserializer<Envelope> {
     @Override
     public Envelope deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JsonProcessingException {
         // current token is "["
-        jsonParser.nextToken();
         List<Double> values = new ArrayList<Double>();
         while (jsonParser.nextToken() != JsonToken.END_ARRAY) {
             Double value = jsonParser.getDoubleValue();

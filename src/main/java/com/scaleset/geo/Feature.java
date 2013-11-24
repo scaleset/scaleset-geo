@@ -3,6 +3,7 @@ package com.scaleset.geo;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
@@ -12,6 +13,7 @@ import java.util.Map;
 public class Feature {
 
     private final static GeometryFactory factory = new GeometryFactory();
+    private Envelope bbox;
     private Geometry geometry;
     private String id;
     private Map<String, Object> properties = new HashMap<String, Object>();
@@ -23,6 +25,10 @@ public class Feature {
 
     public Object get(String key) {
         return properties.get(key);
+    }
+
+    public Envelope getBbox() {
+        return bbox;
     }
 
     public Geometry getGeometry() {
@@ -45,6 +51,10 @@ public class Feature {
     @JsonAnySetter
     public Object put(String key, Object value) {
         return properties.put(key, value);
+    }
+
+    public void setBbox(Envelope bbox) {
+        this.bbox = bbox;
     }
 
     public void setGeometry(Geometry geometry) {

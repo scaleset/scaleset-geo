@@ -18,7 +18,7 @@ public class GeoJsonParser extends AbstractFeatureParser {
     public void parse(InputStream in) throws Exception {
         begin();
         JsonFactory f = new MappingJsonFactory();
-        JsonParser jp = f.createJsonParser(in);
+        JsonParser jp = f.createParser(in);
         JsonToken current;
         current = jp.nextToken();
         if (current != JsonToken.START_OBJECT) {
@@ -41,10 +41,14 @@ public class GeoJsonParser extends AbstractFeatureParser {
                     jp.skipChildren();
                 }
             } else if (fieldName.equals("bbox")) {
+                // advance to '['
+                jp.nextToken();
                 Envelope bbox = objectMapper.readValue(jp, Envelope.class);
                 handle(bbox);
             } else {
-                System.out.println("Unprocessed property: " + fieldName);
+                if (!"type".equals(fieldName)) {
+                    System.out.println("Unprocessed property: " + fieldName);
+                }
                 jp.skipChildren();
             }
         }

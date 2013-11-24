@@ -41,7 +41,7 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
         } else if (geom instanceof GeometryCollection) {
             write((GeometryCollection) geom, gen);
         } else {
-            throw new RuntimeException("Unsupported Geomery type");
+            throw new RuntimeException("Unsupported Geometry type");
         }
     }
 
