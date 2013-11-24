@@ -6,6 +6,7 @@
       "properties": {"prop0": "value0"}
       },
     { "type": "Feature",
+      "bbox": [102.0, 105.0, 0.0, 1.0],
       "geometry": {
         "type": "LineString",
         "coordinates": [
@@ -18,17 +19,17 @@
         }
       },
     { "type": "Feature",
-       "geometry": {
+      "geometry": {
          "type": "Polygon",
          "coordinates": [
            [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0],
              [100.0, 1.0], [100.0, 0.0] ]
            ]
-       },
-       "properties": {
+      },
+      "properties": {
          "prop0": "value0",
          "prop1": {"this": "that"}
-         }
+      }
     },
     { "type": "Feature",
       "geometry": { "type": "GeometryCollection",
