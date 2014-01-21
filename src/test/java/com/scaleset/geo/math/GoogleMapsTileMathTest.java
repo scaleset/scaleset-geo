@@ -5,7 +5,6 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class GoogleMapsTileMathTest extends Assert {
@@ -26,7 +25,7 @@ public class GoogleMapsTileMathTest extends Assert {
         assertEquals(topLeft.x, topLeft0_0_0.x, 0.00001);
         assertEquals(topLeft.y, topLeft0_0_0.y, 0.00001);
 
-        Coordinate topLeftLL = tileMath.metersToLatLon(tileMath.topLeft());
+        Coordinate topLeftLL = tileMath.metersToLngLat(tileMath.topLeft());
     }
 
     @Test
@@ -41,5 +40,13 @@ public class GoogleMapsTileMathTest extends Assert {
     public void testTileBbox() {
         Envelope bbox = tileMath.tileBbox(0, 0, 0);
         assertNotNull(bbox);
+    }
+
+    @Test
+    public void testLngLatToMeters() {
+        double lng = -102.82962;
+        double lat = 43.47967;
+        Coordinate lngLat = new Coordinate(lng, lat);
+        Coordinate meters = tileMath.lngLatToMeters(lngLat);
     }
 }

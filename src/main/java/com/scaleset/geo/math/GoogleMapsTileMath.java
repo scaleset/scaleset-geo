@@ -59,7 +59,7 @@ public class GoogleMapsTileMath {
      * @param coord The coordinate to convert
      * @return The coordinate transformed to EPSG:3857
      */
-    public Coordinate latLonToMeters(Coordinate coord) {
+    public Coordinate lngLatToMeters(Coordinate coord) {
         double mx = coord.x * originShift / 180.0;
         double my = Math.log(Math.tan((90 + coord.y) * Math.PI / 360.0)) / (Math.PI / 180.0);
         my *= originShift / 180.0;
@@ -70,12 +70,12 @@ public class GoogleMapsTileMath {
      * Converts given coordinate in WGS84 Datum to XY in Spherical Mercator
      * EPSG:3857
      *
+     * @param lng the longitude of the coordinate
      * @param lat the latitude of the coordinate
-     * @param lon the longitude of the coordinate
      * @return The coordinate transformed to EPSG:3857
      */
-    public Coordinate latLonToMeters(double lat, double lon) {
-        double mx = lon * originShift / 180.0;
+    public Coordinate lngLatToMeters(double lng, double lat) {
+        double mx = lng * originShift / 180.0;
         double my = Math.log(Math.tan((90 + lat) * Math.PI / 360.0)) / (Math.PI / 180.0);
 
         my *= originShift / 180.0;
@@ -90,9 +90,9 @@ public class GoogleMapsTileMath {
      * @param env The envelope to transform
      * @return The envelope transformed to EPSG:3857
      */
-    public Envelope latLonToMeters(Envelope env) {
-        Coordinate min = latLonToMeters(env.getMinX(), env.getMinY());
-        Coordinate max = latLonToMeters(env.getMaxX(), env.getMaxY());
+    public Envelope lngLatToMeters(Envelope env) {
+        Coordinate min = lngLatToMeters(env.getMinX(), env.getMinY());
+        Coordinate max = lngLatToMeters(env.getMaxX(), env.getMaxY());
         Envelope result = new Envelope(min.x, max.x, min.y, max.y);
         return result;
     }
@@ -104,14 +104,14 @@ public class GoogleMapsTileMath {
      * @param geometry the geometry to convert
      * @return the geometry transformed to EPSG:3857
      */
-    public Geometry latLonToMeters(Geometry geometry) {
+    public Geometry lngLatToMeters(Geometry geometry) {
         GeometryTransformer transformer = new GeometryTransformer() {
             @Override
             protected CoordinateSequence transformCoordinates(CoordinateSequence coords, Geometry parent) {
                 Coordinate[] newCoords = new Coordinate[coords.size()];
                 for (int i = 0; i < coords.size(); ++i) {
                     Coordinate coord = coords.getCoordinate(i);
-                    newCoords[i] = latLonToMeters(coord);
+                    newCoords[i] = lngLatToMeters(coord);
                 }
                 return new CoordinateArraySequence(newCoords);
             }
@@ -132,7 +132,7 @@ public class GoogleMapsTileMath {
      * @param my the Y coordinate in meters
      * @return The coordinate transformed to EPSG:4326
      */
-    public Coordinate metersToLatLon(double mx, double my) {
+    public Coordinate metersToLngLat(double mx, double my) {
         double lon = (mx / originShift) * 180.0;
         double lat = (my / originShift) * 180.0;
 
@@ -148,8 +148,8 @@ public class GoogleMapsTileMath {
      * @param coord the coordinate in meters
      * @return The coordinate transformed to EPSG:4326
      */
-    public Coordinate metersToLatLon(Coordinate coord) {
-        return metersToLatLon(coord.x, coord.y);
+    public Coordinate metersToLngLat(Coordinate coord) {
+        return metersToLngLat(coord.x, coord.y);
     }
 
     /**
