@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.scaleset</groupId>
     <artifactId>scaleset-geo</artifactId>
-    <version>0.10.0</version>
+    <version>0.11.0</version>
     <packaging>jar</packaging>
     <name>scaleset-geo</name>
     <description>Simple framework for dealing with GeoJson and similar data formats</description>
@@ -41,12 +41,6 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.scaleset</groupId>
-            <artifactId>simple-utils</artifactId>
-            <version>0.2.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.vividsolutions</groupId>
             <artifactId>jts</artifactId>
             <version>${jts.version}</version>
@@ -76,22 +70,20 @@
             <version>4.5</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>1.7.5</version>
         </dependency>
+
         <dependency>
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
+	    <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.codehaus.woodstox</groupId>
-            <artifactId>wstx-asl</artifactId>
-            <version>4.0.6</version>
-            <scope>optional</scope>
-        </dependency>
+
     </dependencies>
 
     <build>
@@ -140,7 +132,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.5</maven.compiler.source>
         <maven.compiler.target>1.5</maven.compiler.target>
-        <jackson.version>2.2.3</jackson.version>
+        <jackson.version>2.3.3</jackson.version>
         <jts.version>1.13</jts.version>
     </properties>
 </project>

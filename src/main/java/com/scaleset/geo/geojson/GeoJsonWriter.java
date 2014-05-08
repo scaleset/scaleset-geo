@@ -11,9 +11,8 @@ import java.io.OutputStream;
 
 public class GeoJsonWriter {
 
-    private JsonFactory jsonFactory = new JsonFactory(); // or, for data
-    // binding,
-    // org.codehaus.jackson.mapper.MappingJsonFactory]
+    private JsonFactory jsonFactory = new JsonFactory();
+
     private JsonGenerator jg;
     private ObjectMapper objectMapper = new ObjectMapper().registerModule(new GeoJsonModule());
 
@@ -28,7 +27,7 @@ public class GeoJsonWriter {
     }
 
     public void start(OutputStream out) throws IOException {
-        jg = jsonFactory.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, true).createJsonGenerator(out,
+        jg = jsonFactory.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, true).createGenerator(out,
                 JsonEncoding.UTF8);
         jg.writeStartObject();
         jg.writeFieldName("type");

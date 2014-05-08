@@ -1,7 +1,5 @@
 package com.scaleset.geo.geojson;
 
-import java.io.IOException;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
@@ -9,28 +7,20 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.MultiLineString;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.*;
 
-public class GeometryDeserializer extends JsonDeserializer<Geometry> {
+import java.io.IOException;
+
+public class GeometryDeserializer<T extends Geometry> extends JsonDeserializer<T> {
 
     private GeometryFactory factory = new GeometryFactory();
 
     @Override
-    public Geometry deserialize(JsonParser jsonParser, DeserializationContext arg1) throws IOException,
+    public T deserialize(JsonParser jsonParser, DeserializationContext arg1) throws IOException,
             JsonProcessingException {
         ObjectCodec oc = jsonParser.getCodec();
         JsonNode node = oc.readTree(jsonParser);
-        Geometry result = geometry(node);
+        T result = (T) geometry(node);
         return result;
     }
 

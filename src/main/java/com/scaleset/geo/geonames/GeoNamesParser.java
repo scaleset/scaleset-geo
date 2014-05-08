@@ -1,5 +1,9 @@
 package com.scaleset.geo.geonames;
 
+import com.scaleset.geo.AbstractFeatureParser;
+import com.scaleset.geo.Feature;
+import com.vividsolutions.jts.geom.Coordinate;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,16 +12,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.scaleset.geo.AbstractFeatureParser;
-import com.scaleset.geo.Feature;
-import com.scaleset.utils.IntegerUtils;
-import com.vividsolutions.jts.geom.Coordinate;
-
 /**
  * Reader for geonames.org US data file.
- * 
+ *
  * @author topher
- * 
  */
 public class GeoNamesParser extends AbstractFeatureParser {
 
@@ -110,12 +108,21 @@ public class GeoNamesParser extends AbstractFeatureParser {
         result.put("admin2", fields[ADMIN2]);
         result.put("admin3", fields[ADMIN3]);
         result.put("admin4", fields[ADMIN4]);
-        result.put("population", IntegerUtils.valueOf(fields[POPULATION], 0));
-        result.put("elevation", IntegerUtils.valueOf(fields[ELEVATION], 0));
-        result.put("gtopo30", IntegerUtils.valueOf(fields[GTOPO30], 0));
+        result.put("population", intValue(fields[POPULATION]));
+        result.put("elevation", intValue(fields[ELEVATION]));
+        result.put("gtopo30", intValue(fields[GTOPO30]));
         // TODO: check for null
-        result.put("timeZone", IntegerUtils.valueOf(fields[TIMEZONE], 0));
+        result.put("timeZone", intValue(fields[TIMEZONE]));
         result.put("modified", parseDate(fields[MODIFICATION_DATE]));
+        return result;
+    }
+
+    Integer intValue(String str) {
+        Integer result = null;
+        try {
+            result = Integer.valueOf(str);
+        } catch (NumberFormatException e) {
+        }
         return result;
     }
 }
