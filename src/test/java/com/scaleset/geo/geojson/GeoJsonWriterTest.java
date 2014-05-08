@@ -3,6 +3,9 @@ package com.scaleset.geo.geojson;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -34,4 +37,5 @@ public class GeoJsonWriterTest extends Assert {
         FeatureCollection fc = handler.getCollection();
         return fc;
     }
+
 }
