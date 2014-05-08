@@ -107,7 +107,7 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
 
     void write(MultiPolygon geom, JsonGenerator gen) throws JsonGenerationException, IOException {
         gen.writeStartObject();
-        gen.writeStringField("type", "Polygon");
+        gen.writeStringField("type", "MultiPolygon");
         gen.writeFieldName("coordinates");
         gen.writeStartArray();
         for (int i = 0; i < geom.getNumGeometries(); ++i) {

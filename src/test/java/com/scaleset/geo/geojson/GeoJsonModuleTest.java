@@ -3,6 +3,7 @@ package com.scaleset.geo.geojson;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.scaleset.geo.Feature;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
@@ -21,10 +22,21 @@ public class GeoJsonModuleTest extends Assert {
         Point point = factory.createPoint(new Coordinate(-78, 39));
         String json = mapper.writeValueAsString(point);
         assertEquals("{\"type\":\"Point\",\"coordinates\":[-78.0,39.0]}", json);
+        Point p2 = mapper.readValue(json, Point.class);
+        assertEquals(point, p2);
     }
 
     @Test
-    public void testDeserializePolygon() throws IOException {
+    public void testSimpleFeature() throws IOException {
+        Point point = factory.createPoint(new Coordinate(-78, 39));
+        Feature feature = new Feature();
+        feature.setGeometry(point);
+        feature.getProperties().put("title", "Simple Point Feature");
+        String json = mapper.writeValueAsString(feature);
+    }
+
+    @Test
+    public void testDeserializePoint() throws IOException {
         String json = "{\"point\": {\"type\":\"Point\",\"coordinates\":[-78.0,39.0]}}";
         HasGeometry hasGeometry = mapper.readValue(json, HasGeometry.class);
         assertNotNull(hasGeometry);
