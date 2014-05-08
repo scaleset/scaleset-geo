@@ -1,8 +1,7 @@
 Scaleset Geo
 ==============
 
-Scaleset Geo is a GeoJSON compatible framework for working with simple feature data.
-
+Scaleset Geo is a Jackson module for mapping GeoJSON to/from JTS Geometry objects.  Additionally, the library includes a simple Feature API for working with GeoJSON features and feature collections. 
 
 Quick Start
 -----------
@@ -17,12 +16,68 @@ Quick Start
 </dependency>
 ```
 
+### GeoJSON Jackson Module (GeoJsonModule)
+
+To read or write GeoJSON, simply register the GeoJsonModule with a Jackson ObjectMapper. 
+
+
+```java
+    @Test
+    public void testSerdePoint() throws IOException {
+        Point point = factory.createPoint(new Coordinate(-78, 39));
+        String json = mapper.writeValueAsString(point);
+        assertEquals("{\"type\":\"Point\",\"coordinates\":[-78.0,39.0]}", json);
+        Point p2 = mapper.readValue(json, Point.class);
+        assertEquals(point, p2);
+    }
+```
+
+The module supports all valid GeoJSON geometry types.  
+
+* Point            
+* MultiPoint       
+* LineString        
+* MultiLineString   
+* Polygon            
+* MultiPolygon      
+* GeometryCollection 
+
+
 ### Feature API
 
 Scaleset Geo provides a minimal Feature API compatible with the GeoJSON data model.
 
 * Feature - An object with identity, type, properties and a geometry.
 * Feature Collection - A collection of Feature objects with an additional bounding box.
+
+The following unit test creates a Feature object with a Point geometry and a single property.
+```java
+    @Test
+    public void testSimpleFeature() throws IOException {
+        Point point = factory.createPoint(new Coordinate(-78, 39));
+        Feature feature = new Feature();
+        feature.setGeometry(point);
+        feature.getProperties().put("title", "Simple Point Feature");
+        System.out.println(mapper.writeValueAsString(feature));
+    }
+```
+It then writes it to stdout as GeoJSON.
+
+```json
+{
+  "type": "Feature",
+  "geometry": {
+    "type": "Point",
+    "coordinates": [
+      -78,
+      39
+    ]
+  },
+  "properties": {
+    "title": "Simple Point Feature"
+  }
+}
+```
 
 
 ### GeoJsonParser
