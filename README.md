@@ -132,3 +132,6 @@ GoCSV files be parsed directly. This makes them an ideal way to distribute geo d
 
 GeoNamesParser is a streaming parser for the data files published by geonames.org.
 
+### License
+
+Scaleset Geo is [Apache 2.0 licensed](http://www.apache.org/licenses/LICENSE-2.0.html).
