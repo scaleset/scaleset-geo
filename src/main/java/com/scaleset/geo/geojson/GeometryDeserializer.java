@@ -118,13 +118,13 @@ public class GeometryDeserializer<T extends Geometry> extends JsonDeserializer<T
     }
 
     Coordinate toCoordinate(ArrayNode node) {
-        double x = 0, y = 0, z = 0;
+        double x = 0, y = 0, z = Double.NaN;
         if (node.size() > 1) {
             x = node.get(0).asDouble();
             y = node.get(1).asDouble();
         }
         if (node.size() > 2) {
-            z = node.get(1).asDouble();
+            z = node.get(2).asDouble();
         }
         Coordinate result = new Coordinate(x, y, z);
         return result;

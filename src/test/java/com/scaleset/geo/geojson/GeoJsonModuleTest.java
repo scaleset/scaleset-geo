@@ -24,6 +24,14 @@ public class GeoJsonModuleTest extends Assert {
         assertEquals("{\"type\":\"Point\",\"coordinates\":[-78.0,39.0]}", json);
         Point p2 = mapper.readValue(json, Point.class);
         assertEquals(point, p2);
+        assertTrue(point.getCoordinate().equals3D(p2.getCoordinate()));
+        
+        point = factory.createPoint(new Coordinate(24, -56, 78));
+        json = mapper.writeValueAsString(point);
+        assertEquals("{\"type\":\"Point\",\"coordinates\":[24.0,-56.0,78.0]}", json);
+        p2 = mapper.readValue(json, Point.class);
+        assertEquals(point, p2);
+        assertTrue(point.getCoordinate().equals3D(p2.getCoordinate()));
     }
 
     @Test

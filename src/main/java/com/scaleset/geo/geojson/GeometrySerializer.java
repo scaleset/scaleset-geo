@@ -125,6 +125,9 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
         gen.writeStartArray();
         gen.writeNumber(coordinate.x);
         gen.writeNumber(coordinate.y);
+        if (! Double.isNaN(coordinate.z)) {
+            gen.writeNumber(coordinate.z);
+        }
         gen.writeEndArray();
     }
 
