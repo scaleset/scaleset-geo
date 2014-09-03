@@ -3,6 +3,8 @@ package com.scaleset.geo.geojson;
 import java.io.FileInputStream;
 import java.util.zip.GZIPInputStream;
 
+import com.scaleset.geo.Feature;
+import com.vividsolutions.jts.geom.Point;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,6 +24,19 @@ public class GeoCsvTest extends Assert {
         parser.parse(new GZIPInputStream(new FileInputStream("tl_2012_us_county.csv.gz")));
         FeatureCollection fc = handler.getCollection();
         System.out.println(fc.getFeatures().size());
+    }
+
+    @Test
+    public void testParseWithLatLng() throws Exception {
+        FeatureCollectionHandler handler = new FeatureCollectionHandler();
+        GeoCsvParser parser = new GeoCsvParser().id("zip_code").latitude("latitude").longitude("longitude");
+        parser.handler(handler);
+        parser.parse(getClass().getResourceAsStream("/zipcodes.csv"));
+        FeatureCollection fc = handler.getCollection();
+        assertEquals(110, fc.getFeatures().size());
+        Feature f = fc.getFeatures().get(0);
+        assertEquals("Springfield", f.getProperties().get("city"));
+        assertTrue(f.getGeometry() instanceof Point);
     }
 
 }
