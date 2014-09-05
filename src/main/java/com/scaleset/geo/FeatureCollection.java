@@ -14,6 +14,7 @@ import java.util.List;
 public class FeatureCollection {
 
     private Envelope bbox;
+    private CRS crs;
     private List<Feature> features = new ArrayList<Feature>();
     private String id;
 
@@ -25,12 +26,32 @@ public class FeatureCollection {
         return bbox;
     }
 
+    public void setBbox(Envelope bbox) {
+        this.bbox = bbox;
+    }
+
+    public CRS getCrs() {
+        return crs;
+    }
+
+    public void setCrs(CRS crs) {
+        this.crs = crs;
+    }
+
     public List<Feature> getFeatures() {
         return features;
     }
 
+    public void setFeatures(List<Feature> features) {
+        this.features = features;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public SpatialIndex rtee() {
@@ -41,17 +62,5 @@ public class FeatureCollection {
             }
         }
         return result;
-    }
-
-    public void setBbox(Envelope bbox) {
-        this.bbox = bbox;
-    }
-
-    public void setFeatures(List<Feature> features) {
-        this.features = features;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
