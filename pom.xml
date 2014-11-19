@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.scaleset</groupId>
     <artifactId>scaleset-geo</artifactId>
-    <version>0.12.0</version>
+    <version>0.13.0</version>
     <packaging>jar</packaging>
     <name>scaleset-geo</name>
     <description>Simple framework for dealing with GeoJson and similar data formats</description>
@@ -47,6 +47,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.spatial4j</groupId>
+            <artifactId>spatial4j</artifactId>
+            <version>0.4</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${jackson.version}</version>
@@ -81,9 +87,14 @@
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
-	    <scope>provided</scope>
+            <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>org.skyscreamer</groupId>
+            <artifactId>jsonassert</artifactId>
+            <version>1.2.3</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

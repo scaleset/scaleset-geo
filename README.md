@@ -8,11 +8,12 @@ Quick Start
 
 ### Dependency
 
-```java
+
+```xml
 <dependency>
     <groupId>com.scaleset</groupId>
     <artifactId>scaleset-geo</artifactId>
-    <version>0.12.0</version>
+    <version>0.13.0</version>
 </dependency>
 ```
 
@@ -51,6 +52,7 @@ Scaleset Geo provides a minimal Feature API compatible with the GeoJSON data mod
 * Feature Collection - A collection of Feature objects with an additional bounding box.
 
 The following unit test creates a Feature object with a Point geometry and a single property.
+
 ```java
     @Test
     public void testSimpleFeature() throws IOException {
@@ -61,6 +63,7 @@ The following unit test creates a Feature object with a Point geometry and a sin
         System.out.println(mapper.writeValueAsString(feature));
     }
 ```
+
 It then writes it to stdout as GeoJSON.
 
 ```json

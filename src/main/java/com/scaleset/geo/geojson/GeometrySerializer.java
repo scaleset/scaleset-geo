@@ -112,10 +112,12 @@ public class GeometrySerializer extends JsonSerializer<Geometry> {
         gen.writeStartArray();
         for (int i = 0; i < geom.getNumGeometries(); ++i) {
             Polygon p = (Polygon) geom.getGeometryN(i);
+            gen.writeStartArray();
             writeCoordinates(p.getExteriorRing().getCoordinates(), gen);
             for (int j = 0; j < p.getNumInteriorRing(); ++j) {
                 writeCoordinates(p.getInteriorRingN(j).getCoordinates(), gen);
             }
+            gen.writeEndArray();
         }
         gen.writeEndArray();
         gen.writeEndObject();
