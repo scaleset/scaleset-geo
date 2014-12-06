@@ -15,6 +15,10 @@ public class GeoJsonModule extends SimpleModule {
     static GeometryDeserializer GEO_DE = new GeometryDeserializer();
 
     public GeoJsonModule() {
+        this(null);
+    }
+
+    public GeoJsonModule(Integer precision) {
         // deserializers - Jackson requires a deserializer for each subclass of geometry
         GeometryDeserializer de = new GeometryDeserializer();
         addDeserializer(Geometry.class, new GeometryDeserializer<Geometry>());
@@ -29,7 +33,7 @@ public class GeoJsonModule extends SimpleModule {
         addDeserializer(Envelope.class, new EnvelopeDeserializer());
 
         // serializers
-        addSerializer(Geometry.class, new GeometrySerializer());
+        addSerializer(Geometry.class, new GeometrySerializer(precision));
         addSerializer(Envelope.class, new EnvelopeSerializer());
     }
 
