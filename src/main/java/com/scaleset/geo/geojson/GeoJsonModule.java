@@ -1,14 +1,7 @@
 package com.scaleset.geo.geojson;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.vividsolutions.jts.geom.*;
-
-import java.io.IOException;
 
 public class GeoJsonModule extends SimpleModule {
 
@@ -34,7 +27,7 @@ public class GeoJsonModule extends SimpleModule {
 
         // serializers
         addSerializer(Geometry.class, new GeometrySerializer(precision));
-        addSerializer(Envelope.class, new EnvelopeSerializer());
+        addSerializer(Envelope.class, new EnvelopeSerializer(precision));
     }
 
 }
