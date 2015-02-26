@@ -245,4 +245,19 @@ public class GoogleMapsTileMath {
         return result;
     }
 
+    /**
+     * Returns the EPSG:4326 bounding of the specified tile coordinate
+     *
+     * @param tx        The tile x coordinate
+     * @param ty        The tile y coordinate
+     * @param zoomLevel The tile zoom level
+     * @return the EPSG:4326 bounding box
+     */
+    public Envelope tileBboxLngLat(int tx, int ty, int zoomLevel) {
+        Coordinate topLeft = metersToLngLat(tileTopLeft(tx, ty, zoomLevel));
+        Coordinate lowerRight = metersToLngLat(tileTopLeft(tx + 1, ty + 1, zoomLevel));
+        Envelope result = new Envelope(topLeft, lowerRight);
+        return result;
+    }
+
 }
