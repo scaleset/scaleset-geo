@@ -153,6 +153,29 @@ public class GoogleMapsTileMath {
     }
 
     /**
+     * Converts geometry from Spherical Mercator
+     * (EPSG:3857) to lat/lon (EPSG:4326))
+     *
+     * @param geometry the geometry to convert
+     * @return the geometry transformed to EPSG:4326
+     */
+    public Geometry metersToLngLat(Geometry geometry) {
+        GeometryTransformer transformer = new GeometryTransformer() {
+            @Override
+            protected CoordinateSequence transformCoordinates(CoordinateSequence coords, Geometry parent) {
+                Coordinate[] newCoords = new Coordinate[coords.size()];
+                for (int i = 0; i < coords.size(); ++i) {
+                    Coordinate coord = coords.getCoordinate(i);
+                    newCoords[i] = metersToLngLat(coord);
+                }
+                return new CoordinateArraySequence(newCoords);
+            }
+        };
+        Geometry result = transformer.transform(geometry);
+        return result;
+    }
+
+    /**
      * Converts EPSG:3857 to pyramid pixel coordinates in given zoom level
      *
      * @param mx        the X coordinate in meters
