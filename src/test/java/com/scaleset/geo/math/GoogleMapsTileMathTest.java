@@ -49,4 +49,34 @@ public class GoogleMapsTileMathTest extends Assert {
         Coordinate lngLat = new Coordinate(lng, lat);
         Coordinate meters = tileMath.lngLatToMeters(lngLat);
     }
+
+    @Test
+    public void testTileAlignBounds() {
+        Coordinate ll = new Coordinate(-120, 20);
+        Coordinate ur = new Coordinate(-80, 40);
+        Envelope bbox = new Envelope(ll.x, ur.x, ll.y, ur.y);
+        Coordinate tileLL = tileMath.lngLatToTile(ll, 4);
+        Coordinate tileUR = tileMath.lngLatToTile(ur, 4);
+        Envelope tileLLBBox = tileMath.tileBbox((int) tileLL.x, (int) tileLL.y, (int) tileLL.z);
+        assertNotNull(tileLL);
+    }
+
+    @Test
+    public void testLatLngToPixels() {
+        Coordinate ll = new Coordinate(-122.1240234375, 47.67278567576541);
+        Coordinate ur = new Coordinate(-122.113037109375, 47.68018294648414);
+        Envelope bbox = tileMath.tileBboxLngLat(5268, 11434, 15);
+
+        assertEquals(ll.x, bbox.getMinX(), 0.000000001);
+        assertEquals(ll.y, bbox.getMinY(), 0.000000001);
+        Coordinate c1 = new Coordinate(-122.115, 46.677);
+        Coordinate c0 = new Coordinate((ll.x + ur.x) / 2.0, (ll.y + ur.y) / 2.0);
+
+        Coordinate m1 = tileMath.lngLatToMeters(c1);
+        Coordinate p1 = tileMath.metersToPixels(m1.x, m1.y, 15);
+        long left = 256 * 5268;
+        long top = 256 * 11434;
+
+    }
+
 }

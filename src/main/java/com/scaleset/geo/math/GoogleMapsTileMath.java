@@ -260,4 +260,24 @@ public class GoogleMapsTileMath {
         return result;
     }
 
+    /**
+     * Returns the tile coordinate of the LngLat coordinate
+     *
+     * @param coord     The LngLat coordinate
+     * @param zoomLevel
+     * @return
+     */
+    public Coordinate lngLatToTile(Coordinate coord, int zoomLevel) {
+        return metersToTile(lngLatToMeters(coord), zoomLevel);
+    }
+
+    /**
+     * Returns the tile coordinate of the meters coordinate
+     */
+    public Coordinate metersToTile(Coordinate coord, int zoomLevel) {
+        Coordinate pixels = metersToPixels(coord.x, coord.y, zoomLevel);
+        int tx = (int) pixels.x / 256;
+        int ty = (int) pixels.y / 256;
+        return new Coordinate(tx, ty, zoomLevel);
+    }
 }
