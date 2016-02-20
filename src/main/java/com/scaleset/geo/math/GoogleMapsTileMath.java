@@ -7,6 +7,8 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
 import com.vividsolutions.jts.geom.util.GeometryTransformer;
 
+import java.awt.geom.AffineTransform;
+
 /*
  Based on GDAL2Tiles / globalmaptiles.py
  Original python version Copyright (c) 2008 Klokan Petr Pridal. All rights reserved.
@@ -120,6 +122,17 @@ public class GoogleMapsTileMath {
         return result;
     }
 
+    /**
+     * Returns the tile coordinate of the LngLat coordinate
+     *
+     * @param coord     The LngLat coordinate
+     * @param zoomLevel
+     * @return
+     */
+    public Coordinate lngLatToTile(Coordinate coord, int zoomLevel) {
+        return metersToTile(lngLatToMeters(coord), zoomLevel);
+    }
+
     public int matrixSize(int zoomLevel) {
         return 1 << zoomLevel;
     }
@@ -153,6 +166,29 @@ public class GoogleMapsTileMath {
     }
 
     /**
+     * Converts geometry from Spherical Mercator
+     * (EPSG:3857) to lat/lon (EPSG:4326))
+     *
+     * @param geometry the geometry to convert
+     * @return the geometry transformed to EPSG:4326
+     */
+    public Geometry metersToLngLat(Geometry geometry) {
+        GeometryTransformer transformer = new GeometryTransformer() {
+            @Override
+            protected CoordinateSequence transformCoordinates(CoordinateSequence coords, Geometry parent) {
+                Coordinate[] newCoords = new Coordinate[coords.size()];
+                for (int i = 0; i < coords.size(); ++i) {
+                    Coordinate coord = coords.getCoordinate(i);
+                    newCoords[i] = metersToLngLat(coord);
+                }
+                return new CoordinateArraySequence(newCoords);
+            }
+        };
+        Geometry result = transformer.transform(geometry);
+        return result;
+    }
+
+    /**
      * Converts EPSG:3857 to pyramid pixel coordinates in given zoom level
      *
      * @param mx        the X coordinate in meters
@@ -167,6 +203,39 @@ public class GoogleMapsTileMath {
         double py = (my + originShift) / res;
 
         return new Coordinate(px, py);
+    }
+
+    /**
+     * Create a transform that converts meters to tile-relative pixels
+     *
+     * @param tx        The x coordinate of the tile
+     * @param ty        The y coordinate of the tile
+     * @param zoomLevel the zoom level
+     * @return AffineTransform with meters to pixels transformation
+     */
+    public AffineTransform metersToTilePixelsTransform(int tx, int ty, int zoomLevel) {
+        AffineTransform result = new AffineTransform();
+        double scale = 1.0 / resolution(zoomLevel);
+        int nTiles = 2 << (zoomLevel - 1);
+        int px = tx * -256;
+        int py = (nTiles - ty) * -256;
+        // flip y for upper-left origin
+        result.scale(1, -1);
+        result.translate(px, py);
+        result.scale(scale, scale);
+        result.translate(originShift, originShift);
+        return result;
+    }
+
+
+    /**
+     * Returns the tile coordinate of the meters coordinate
+     */
+    public Coordinate metersToTile(Coordinate coord, int zoomLevel) {
+        Coordinate pixels = metersToPixels(coord.x, coord.y, zoomLevel);
+        int tx = (int) pixels.x / 256;
+        int ty = (int) pixels.y / 256;
+        return new Coordinate(tx, ty, zoomLevel);
     }
 
     /**
@@ -206,30 +275,6 @@ public class GoogleMapsTileMath {
     }
 
     /**
-     * Returns the top-left corner of the top-left tile
-     *
-     * @return the EPSG:3857 coordinate for the top-left corner.
-     */
-    public Coordinate topLeft() {
-        return topLeft;
-    }
-
-    /**
-     * Returns the top-left corner of the specific tile coordinate
-     *
-     * @param tx        The tile x coordinate
-     * @param ty        The tile y coordinate
-     * @param zoomLevel The tile zoom level
-     * @return The EPSG:3857 coordinate of the top-left corner
-     */
-    public Coordinate tileTopLeft(int tx, int ty, int zoomLevel) {
-        int px = tx * tileSize;
-        int py = ty * tileSize;
-        Coordinate result = pixelsToMeters(px, py, zoomLevel);
-        return result;
-    }
-
-    /**
      * Returns the EPSG:3857 bounding of the specified tile coordinate
      *
      * @param tx        The tile x coordinate
@@ -258,6 +303,30 @@ public class GoogleMapsTileMath {
         Coordinate lowerRight = metersToLngLat(tileTopLeft(tx + 1, ty + 1, zoomLevel));
         Envelope result = new Envelope(topLeft, lowerRight);
         return result;
+    }
+
+    /**
+     * Returns the top-left corner of the specific tile coordinate
+     *
+     * @param tx        The tile x coordinate
+     * @param ty        The tile y coordinate
+     * @param zoomLevel The tile zoom level
+     * @return The EPSG:3857 coordinate of the top-left corner
+     */
+    public Coordinate tileTopLeft(int tx, int ty, int zoomLevel) {
+        int px = tx * tileSize;
+        int py = ty * tileSize;
+        Coordinate result = pixelsToMeters(px, py, zoomLevel);
+        return result;
+    }
+
+    /**
+     * Returns the top-left corner of the top-left tile
+     *
+     * @return the EPSG:3857 coordinate for the top-left corner.
+     */
+    public Coordinate topLeft() {
+        return topLeft;
     }
 
 }
