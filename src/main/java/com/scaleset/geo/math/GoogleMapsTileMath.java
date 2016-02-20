@@ -7,6 +7,8 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
 import com.vividsolutions.jts.geom.util.GeometryTransformer;
 
+import java.awt.geom.AffineTransform;
+
 /*
  Based on GDAL2Tiles / globalmaptiles.py
  Original python version Copyright (c) 2008 Klokan Petr Pridal. All rights reserved.
@@ -202,6 +204,29 @@ public class GoogleMapsTileMath {
 
         return new Coordinate(px, py);
     }
+
+    /**
+     * Create a transform that converts meters to tile-relative pixels
+     *
+     * @param tx        The x coordinate of the tile
+     * @param ty        The y coordinate of the tile
+     * @param zoomLevel the zoom level
+     * @return AffineTransform with meters to pixels transformation
+     */
+    public AffineTransform metersToTilePixelsTransform(int tx, int ty, int zoomLevel) {
+        AffineTransform result = new AffineTransform();
+        double scale = 1.0 / resolution(zoomLevel);
+        int nTiles = 2 << (zoomLevel - 1);
+        int px = tx * -256;
+        int py = (nTiles - ty) * -256;
+        // flip y for upper-left origin
+        result.scale(1, -1);
+        result.translate(px, py);
+        result.scale(scale, scale);
+        result.translate(originShift, originShift);
+        return result;
+    }
+
 
     /**
      * Returns the tile coordinate of the meters coordinate
