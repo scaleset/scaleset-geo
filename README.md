@@ -13,7 +13,7 @@ Quick Start
 <dependency>
     <groupId>com.scaleset</groupId>
     <artifactId>scaleset-geo</artifactId>
-    <version>0.13.0</version>
+    <version>0.17.0</version>
 </dependency>
 ```
 
