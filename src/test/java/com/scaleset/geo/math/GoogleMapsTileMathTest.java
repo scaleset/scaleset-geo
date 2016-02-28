@@ -9,6 +9,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+
 public class GoogleMapsTileMathTest extends Assert {
 
     private GoogleMapsTileMath tileMath = new GoogleMapsTileMath();
@@ -90,5 +93,39 @@ public class GoogleMapsTileMathTest extends Assert {
         long top = 256 * 11434;
 
     }
+
+    @Test
+    public void testMetersToTilePixelsTransform() {
+
+        double ORIGIN_SHIFT = 2.0037508342789244E7D;
+
+        AffineTransform xform = tileMath.metersToTilePixelsTransform(1, 1, 1);
+
+        Coordinate pxy = tileMath.metersToPixels(-ORIGIN_SHIFT, -ORIGIN_SHIFT, 1);
+
+        Point2D.Double dst = new Point2D.Double();
+
+        // lower left
+        xform.transform(new Point2D.Double(-ORIGIN_SHIFT, -ORIGIN_SHIFT), dst);
+        assertEquals(-256, dst.getX(), .0001);
+        assertEquals(256, dst.getY(), .0001);
+
+        // center
+        xform.transform(new Point2D.Double(0,0), dst);
+        assertEquals(0, dst.getX(), .0001);
+        assertEquals(0, dst.getY(), .0001);
+
+        // upper right
+        xform.transform(new Point2D.Double(ORIGIN_SHIFT, ORIGIN_SHIFT), dst);
+        assertEquals(256, dst.getX(), .0001);
+        assertEquals(-256, dst.getY(), .0001);
+
+
+        xform.transform(new Point2D.Double(0, 0), dst);
+        xform.transform(new Point2D.Double(ORIGIN_SHIFT, ORIGIN_SHIFT), dst);
+
+        assertNotNull(dst);
+    }
+
 
 }
