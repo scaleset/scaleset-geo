@@ -3,31 +3,29 @@ package com.scaleset.geo.geojson;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import com.vividsolutions.jts.geom.Envelope;
+import com.vividsolutions.jts.geom.Coordinate;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class EnvelopeSerializer extends JsonSerializer<Envelope> {
+public class CoordinateSerializer extends JsonSerializer<Coordinate> {
 
     private Integer precision;
 
-    public EnvelopeSerializer(Integer precision) {
+    public CoordinateSerializer(Integer precision) {
         this.precision = precision;
     }
 
-    public EnvelopeSerializer() {
+    public CoordinateSerializer() {
         this(null);
     }
 
     @Override
-    public void serialize(Envelope envelope, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+    public void serialize(Coordinate coordinate, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartArray();
-        writeNumber(envelope.getMinX(), jsonGenerator);
-        writeNumber(envelope.getMinY(), jsonGenerator);
-        writeNumber(envelope.getMaxX(), jsonGenerator);
-        writeNumber(envelope.getMaxY(), jsonGenerator);
+        writeNumber(coordinate.x, jsonGenerator);
+        writeNumber(coordinate.y, jsonGenerator);
         jsonGenerator.writeEndArray();
     }
 
