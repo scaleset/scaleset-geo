@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
-    </parent>
+
+
     <groupId>com.scaleset</groupId>
     <artifactId>scaleset-geo</artifactId>
-    <version>0.18.0</version>
+    <version>0.19.0</version>
     <packaging>jar</packaging>
     <name>scaleset-geo</name>
     <description>Simple framework for dealing with GeoJson and similar data formats</description>
@@ -38,6 +35,7 @@
             </roles>
         </developer>
     </developers>
+
     <dependencies>
 
         <dependency>
@@ -97,46 +95,24 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <repository>
+            <id>bintray-scaleset-maven</id>
+            <url>https://api.bintray.com/maven/scaleset/maven/com.scaleset:scaleset-geo/;publish=1</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <plugins>
             <plugin>
-                <groupId>com.atlassian.maven.plugins</groupId>
-                <artifactId>maven-jgitflow-plugin</artifactId>
-                <version>1.0-alpha21.1</version>
-                <configuration />
+                <groupId>external.atlassian.jgitflow</groupId>
+                <artifactId>jgitflow-maven-plugin</artifactId>
+                <version>1.0-m5.1</version>
+                <configuration>
+                </configuration>
             </plugin>
         </plugins>
     </build>
-
-
-    <profiles>
-        <profile>
-            <id>releaseBranchPrefix-sign-artifacts</id>
-            <activation>
-                <property>
-                    <name>performRelease</name>
-                    <value>true</value>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.4</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
 
     <properties>
