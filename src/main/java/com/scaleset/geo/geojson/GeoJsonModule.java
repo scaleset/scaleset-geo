@@ -24,10 +24,12 @@ public class GeoJsonModule extends SimpleModule {
         addDeserializer(MultiPolygon.class, new GeometryDeserializer<MultiPolygon>());
         addDeserializer(Polygon.class, new GeometryDeserializer<Polygon>());
         addDeserializer(Envelope.class, new EnvelopeDeserializer());
+        addDeserializer(Coordinate.class, new CoordinateDeserializer());
 
         // serializers
         addSerializer(Geometry.class, new GeometrySerializer(precision));
         addSerializer(Envelope.class, new EnvelopeSerializer(precision));
+        addSerializer(Coordinate.class, new CoordinateSerializer(precision));
     }
 
 }
